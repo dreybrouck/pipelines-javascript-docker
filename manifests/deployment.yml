@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: dreybrouckpipelinesjavascriptdocker 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dreybrouckpipelinesjavascriptdocker
+  template:
+    metadata:
+      labels:
+        app: dreybrouckpipelinesjavascriptdocker 
+    spec:
+      containers:
+        - name: dreybrouckpipelinesjavascriptdocker 
+          image: dmrsamplecontainerregistry.azurecr.io/dreybrouckpipelinesjavascriptdocker
+          ports:
+          - containerPort: 8080
