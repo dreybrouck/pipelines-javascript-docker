@@ -30,8 +30,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    #pool: Default
-       vmImage: $(vmImageName)
+    pool: #Default
+      vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -54,7 +54,7 @@ stages:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    #pool: Default
+    pool: #Default
       vmImage: $(vmImageName)
     environment: 'dreybrouckpipelinesjavascriptdocker.default'
     strategy:
@@ -83,7 +83,7 @@ stages:
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
-    #pool: Default
+    pool: #Default
       vmImage: $(vmImageName)
 
     environment: 'dreybrouckpipelinesjavascriptdocker.$(k8sNamespaceForPR)'
