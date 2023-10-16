@@ -18,8 +18,8 @@ variables:
   tag: '$(Build.BuildId)'
   imagePullSecret: 'dmrsamplecontainerregistryb2ab-auth'
 
-  # Agent VM image name
-  # vmImageName: 'ubuntu-latest'
+  Agent VM image name
+vmImageName: 'ubuntu-latest'
 
   # Name of the new namespace being created to deploy the PR changes.
   k8sNamespaceForPR: 'review-app-$(System.PullRequest.PullRequestId)'
@@ -30,8 +30,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool: Default
-      # vmImage: $(vmImageName)
+    #pool: Default
+       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
@@ -54,8 +54,8 @@ stages:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    pool: Default
-      #vmImage: $(vmImageName)
+    #pool: Default
+      vmImage: $(vmImageName)
     environment: 'dreybrouckpipelinesjavascriptdocker.default'
     strategy:
       runOnce:
@@ -83,7 +83,7 @@ stages:
   - deployment: DeployPullRequest
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
-    pool:
+    #pool: Default
       vmImage: $(vmImageName)
 
     environment: 'dreybrouckpipelinesjavascriptdocker.$(k8sNamespaceForPR)'
@@ -131,7 +131,7 @@ stages:
               arguments: svc
               outputFormat: jsonpath='http://{.items[0].status.loadBalancer.ingress[0].ip}:{.items[0].spec.ports[0].port}'
 
-          # Getting the IP of the deployed service and writing it to a variable for posing comment
+         # Getting the IP of the deployed service and writing it to a variable for posing comment
           - script: |
               url="$(get.KubectlOutput)"
               message="Your review app has been deployed"
