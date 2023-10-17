@@ -16,4 +16,4 @@ spec:
         - name: dreybrouckpipelinesjavascriptdocker 
           image: dmrsamplecontainerregistry.azurecr.io/dreybrouckpipelinesjavascriptdocker
           ports:
-          - containerPort: 8080
+          - containerPort: 80
